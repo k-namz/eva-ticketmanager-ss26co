@@ -20,16 +20,27 @@ public class TcpClient {
     }
 
     public void connect() throws IOException {
-        //todo
+        socket = new Socket(host, port);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream(), true);
     }
 
     public String send(String message) throws IOException {
-        //todo
-        return "";
+        if (socket == null || socket.isClosed()) {
+            connect();
+        }
+        out.println(message);
+        return in.readLine();
     }
 
 
     public void close() {
-        //todo
+        try {
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

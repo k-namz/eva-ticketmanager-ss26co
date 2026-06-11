@@ -18,7 +18,23 @@ public class TCPHost {
     }
 
     public void start() {
-        //todo
+        try {
+            serverSocket = new ServerSocket(port);
+            threadPool.execute(() -> {
+                while (!serverSocket.isClosed()) {
+                    try {
+                        Socket clientSocket = serverSocket.accept();
+                        threadPool.execute(new ClientHandler(clientSocket));
+                    } catch (IOException e) {
+                        if (!serverSocket.isClosed()) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -19,6 +19,27 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        //todo
+        try (
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
+        ) {
+            String request;
+            while ((request = in.readLine()) != null) {
+                try {
+                    String response = requestHandler.callMethodRemotely(request);
+                    out.println(response);
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
