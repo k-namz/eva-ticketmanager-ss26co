@@ -57,8 +57,8 @@ public class RequestHandler {
                 ) throw new IllegalArgumentException("Missing arguments");
                 return TicketShopStringFormatter.customerToString(customerService
                         .createCustomer(
-                                methodArguments[1],
                                 methodArguments[0],
+                                methodArguments[1],
                                 LocalDate.parse(methodArguments[2])
                         ));
             }
@@ -144,6 +144,7 @@ public class RequestHandler {
                 event.setTime(LocalDateTime.parse(methodArguments[3]));
                 event.setTicketsAvailable(Integer.parseInt(methodArguments[4]));
                 eventService.updateEvent(event);
+                return "Success";
             }
             case "delete": {
                 if (
