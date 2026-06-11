@@ -19,12 +19,13 @@ class TCPHostTest {
     private Socket clientSocket;
     private BufferedReader in;
     private PrintWriter out;
+    private TCPHost host;
 
     @BeforeEach
     void setUp() throws InterruptedException, IOException {
         // Start the host
         int port = 8081;
-        TCPHost host = new TCPHost(port);
+        host = new TCPHost(port);
         host.start();
         // Give the server time to start
         Thread.sleep(100);
@@ -44,6 +45,7 @@ class TCPHostTest {
         if (clientSocket != null && !clientSocket.isClosed()) {
             clientSocket.close();
         }
+        host.stop();
     }
 
     @Test

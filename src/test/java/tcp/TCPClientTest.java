@@ -17,11 +17,12 @@ import tcp.client.ticketShop.TicketShopStringFormatter;
 class TCPClientTest {
 
     private TcpClient client;
+    private TCPHost host;
 
     @BeforeEach
     void setUp() throws InterruptedException {
         int port = 8080;
-        TCPHost host = new TCPHost(port);
+        host = new TCPHost(port);
         String hostName = "localhost";
         client = new TcpClient(hostName, port);
         host.start();
@@ -32,6 +33,7 @@ class TCPClientTest {
     @AfterEach
     void tearDown() {
         client.close();
+        host.stop();
     }
 
     @Test

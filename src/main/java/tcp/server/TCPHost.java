@@ -37,5 +37,14 @@ public class TCPHost {
         }
     }
 
-
+    public void stop() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        threadPool.shutdownNow();
+    }
 }
